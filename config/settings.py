@@ -43,8 +43,12 @@ INSTALLED_APPS = [
     
 ]
 
-# CORS_ALLOWED_ORIGINS = ['*']
-CORS_ALLOW_ALL_ORIGINS = True
+# 
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = ['*']
+    
 CORS_ALLOW_METHODS = [
     "GET",
     "POST",
