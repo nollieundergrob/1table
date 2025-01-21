@@ -29,11 +29,13 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     
     def patch(self, request, *args, **kwargs):
         queryset = User.objects.all()
-        user = queryset
         user_id = request.query_params.get('id',None)
         if queryset:
-            user = queryset.get(id=user_id)
-        serializer = self.serializer_class(user, data=request.data, partial=True)
+            try:
+                queryset = queryset.get(id=user_id)
+            except:
+                return Response({'detail':'Not Found'},status=404)
+        serializer = self.serializer_class(queryset, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -41,10 +43,12 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     def put(self, request, *args, **kwargs):
         queryset = User.objects.all()
         user_id = request.query_params.get('id',None)
-        user = queryset
         if queryset:
-            user = queryset.get(id=user_id)
-        serializer = self.serializer_class(user, data=request.data)
+            try:
+                queryset = queryset.get(id=user_id)
+            except:
+                return Response({'detail':'Not Found'},status=404)
+        serializer = self.serializer_class(queryset, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -52,8 +56,10 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     def delete(self, request, *args, **kwargs):
         queryset = User.objects.all()
         user_id = request.query_params.get('id',None)
-        user = queryset
         if queryset:
-            user = queryset.get(id=user_id)
-        user.delete()
+            try:
+                queryset = queryset.get(id=user_id)
+            except:
+                return Response({'detail':'Not Found'},status=404)
+        queryset.delete()
         return Response({"detail": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
