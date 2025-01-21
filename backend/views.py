@@ -23,10 +23,9 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
             if login and password:
                 try:
                     queryset = queryset.filter(username=login,password=make_password(password))
-                    return Response({'detail':'There is no such user with a username and password.',
-                                     'error':"Такого пользователя с логином и паролем не существует",
+                    return Response({'detail':'Successful authorization',
                                      'auth':True
-                                     },status=500)
+                                     },status=200)
                 except:
                     return Response({'detail':'There is no such user with a username and password.',
                                      'error':"Такого пользователя с логином и паролем не существует",
