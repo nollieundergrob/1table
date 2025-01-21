@@ -11,6 +11,8 @@ from rest_framework.response import Response
 class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     serializer_class = UserSerializer
     def get(self, request, *args, **kwargs):
+        if len(queryset) < 1:
+            return Response({'detail':'Empty data'},status=500)
         queryset = User.objects.all()
         id = self.request.query_params.get('id',None)
         
@@ -30,6 +32,8 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     def patch(self, request, *args, **kwargs):
         queryset = User.objects.all()
         user_id = request.query_params.get('id',None)
+        if len(queryset) < 1:
+            return Response({'detail':'Empty data'},status=500)
         if queryset:
             try:
                 queryset = queryset.get(id=user_id)
@@ -43,6 +47,8 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     def put(self, request, *args, **kwargs):
         queryset = User.objects.all()
         user_id = request.query_params.get('id',None)
+        if len(queryset) < 1:
+            return Response({'detail':'Empty data'},status=500)
         if queryset:
             try:
                 queryset = queryset.get(id=user_id)
@@ -55,6 +61,8 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
 
     def delete(self, request, *args, **kwargs):
         queryset = User.objects.all()
+        if len(queryset) < 1:
+            return Response({'detail':'Empty data'},status=500)
         user_id = request.query_params.get('id',None)
         if queryset:
             try:
