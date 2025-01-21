@@ -39,6 +39,8 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
                 queryset = queryset.get(id=user_id)
             except:
                 return Response({'detail':'Not Found'},status=404)
+        else:
+                return Response({'detail':'excpeted query_params id'},status=500)            
         serializer = self.serializer_class(queryset, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -54,6 +56,8 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
                 queryset = queryset.get(id=user_id)
             except:
                 return Response({'detail':'Not Found'},status=404)
+        else:
+                return Response({'detail':'excpeted query_params id'},status=500) 
         serializer = self.serializer_class(queryset, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -69,5 +73,7 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
                 queryset = queryset.get(id=user_id)
             except:
                 return Response({'detail':'Not Found'},status=404)
+        else:
+                return Response({'detail':'excpeted query_params id'},status=500) 
         queryset.delete()
         return Response({"detail": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
