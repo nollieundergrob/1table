@@ -4,16 +4,43 @@ from .models import *
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.mixins import *
 from rest_framework.response import Response
+from django.contrib.auth.handlers import make_password
+
 # Create your views here.
+
 
 
 
 class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     serializer_class = UserSerializer
     def get(self, request, *args, **kwargs):
-        queryset = User.objects.all()
+        queryset = User.objects.all() # Общий queryset
+        
+        auth = self.request.query_params.get('auth',None)
+        if auth:
+            login = self.request.query_params.get('username',None)
+            password = self.request.query_params.get('password',None)
+            if login and password:
+                try:
+                    queryset = queryset.filter(username=login,password=make_password(password))
+                    return Response({'detail':'There is no such user with a username and password.',
+                                     'error':"Такого пользователя с логином и паролем не существует",
+                                     'auth':True
+                                     },status=500)
+                except:
+                    return Response({'detail':'There is no such user with a username and password.',
+                                     'error':"Такого пользователя с логином и паролем не существует",
+                                     'auth':False
+                                     },status=500)
+                
+        
+        
+        
+        
+        
         if len(queryset) < 1:
-            return Response({'detail':'Empty data'},status=500)
+            return Response({'detail':'Empty data',
+                            },status=500)
         id = self.request.query_params.get('id',None)
         
         
