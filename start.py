@@ -9,4 +9,6 @@ port = 25565
 verbosity = 3
 
 def start_api():
-    os.system(f'daphne -p {port} -b {ip} -v {verbosity} -s NOLLIEUNDERGROB conifg.asgi:application')
+    os.system(f'daphne -p {port} -b {ip} -v {verbosity} -s NOLLIEUNDERGROB config.asgi:application')
+
+start_api()

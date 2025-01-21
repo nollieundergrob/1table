@@ -16,6 +16,6 @@ COPY . .
 
 # Создаем файл базы данных (если нужно)
 RUN touch db.sqlite3
-
+RUN chmod 777 db.sqlite3
 # Команда для запуска сервера
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "start.py"]
