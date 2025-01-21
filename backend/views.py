@@ -29,6 +29,7 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     
     def patch(self, request, *args, **kwargs):
         queryset = User.objects.all()
+        user = queryset
         user_id = request.query_params.get('id',None)
         if queryset:
             user = queryset.get(id=user_id)
@@ -40,6 +41,7 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     def put(self, request, *args, **kwargs):
         queryset = User.objects.all()
         user_id = request.query_params.get('id',None)
+        user = queryset
         if queryset:
             user = queryset.get(id=user_id)
         serializer = self.serializer_class(user, data=request.data)
@@ -50,6 +52,7 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     def delete(self, request, *args, **kwargs):
         queryset = User.objects.all()
         user_id = request.query_params.get('id',None)
+        user = queryset
         if queryset:
             user = queryset.get(id=user_id)
         user.delete()
