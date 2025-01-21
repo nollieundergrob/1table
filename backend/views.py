@@ -11,9 +11,9 @@ from rest_framework.response import Response
 class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     serializer_class = UserSerializer
     def get(self, request, *args, **kwargs):
+        queryset = User.objects.all()
         if len(queryset) < 1:
             return Response({'detail':'Empty data'},status=500)
-        queryset = User.objects.all()
         id = self.request.query_params.get('id',None)
         
         
