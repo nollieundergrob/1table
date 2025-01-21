@@ -4,7 +4,7 @@ from .models import *
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.mixins import *
 from rest_framework.response import Response
-from django.contrib.auth.handlers import make_password
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
