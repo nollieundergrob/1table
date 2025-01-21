@@ -28,23 +28,29 @@ class UserAPIView(ListCreateAPIView,UpdateModelMixin):
     
     
     def patch(self, request, *args, **kwargs):
-        user_id = request.query_params.get('id')
-        user = get_object_or_404(self.queryset, id=user_id)
+        queryset = User.objects.all()
+        user_id = request.query_params.get('id',None)
+        if queryset:
+            user = queryset.get(id=user_id)
         serializer = self.serializer_class(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     def put(self, request, *args, **kwargs):
-        user_id = request.query_params.get('id')
-        user = get_object_or_404(self.queryset, id=user_id)
+        queryset = User.objects.all()
+        user_id = request.query_params.get('id',None)
+        if queryset:
+            user = queryset.get(id=user_id)
         serializer = self.serializer_class(user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     def delete(self, request, *args, **kwargs):
-        user_id = request.query_params.get('id')
-        user = get_object_or_404(self.queryset, id=user_id)
+        queryset = User.objects.all()
+        user_id = request.query_params.get('id',None)
+        if queryset:
+            user = queryset.get(id=user_id)
         user.delete()
         return Response({"detail": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
