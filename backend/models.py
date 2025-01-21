@@ -1,20 +1,17 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-# #{"username":"",
-# "password",
-# "online":False,
-# "email":"asd@mail.ru",
-# 'id":1}
+class User(AbstractUser):
+    username = models.CharField(max_length=60, unique=True)
+    password = models.CharField(max_length=128)  # Увеличьте длину для хэша
+    online = models.BooleanField("Статус онлайна", default=False)
+    email = models.EmailField(verbose_name="Email", max_length=254, unique=True)
 
-
-class User(models.Model):
-    username = models.CharField(max_length=60)
-    password = models.CharField(max_length=50)
-    online = models.BooleanField("Статус онлайна")
-    email = models.EmailField(verbose_name="Email", max_length=254)
-    
-    def save(self,*args, **kwargs):
+    def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.username
