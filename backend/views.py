@@ -26,13 +26,23 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 DEBUG = settings.DEBUG
 
 class EmailTokenObtainPairView(TokenObtainPairView):
+    """
+    Авторизация через email и пароль. Возвращает JWT-токен.
+
+    Методы:
+    - **POST**: Аутентифицирует пользователя и возвращает токен доступа (access) и обновления (refresh).
+    """
     serializer_class = CustomTokenObtainPairSerializer
 
 
 
 class UserListCreateAPIView(ListCreateAPIView):
     """
-    Обработка GET и POST запросов для списка пользователей.
+    Список пользователей и создание нового пользователя.
+
+    Методы:
+    - **GET**: Возвращает список всех пользователей.
+    - **POST**: Создаёт нового пользователя.
     """
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -78,7 +88,13 @@ class UserListCreateAPIView(ListCreateAPIView):
 
 class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     """
-    Обработка GET, PATCH, PUT и DELETE запросов для конкретного пользователя.
+    Получение, обновление и удаление пользователя.
+
+    Методы:
+    - **GET**: Получить информацию о конкретном пользователе.
+    - **PATCH**: Частично обновить данные пользователя.
+    - **PUT**: Полностью обновить данные пользователя.
+    - **DELETE**: Удалить пользователя (защищено для staff-пользователей).
     """
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -112,8 +128,16 @@ class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 class AvatarViewSet(ModelViewSet):
     """
-    RESTful CRUD для аватарок пользователя.
+    Управление аватарками пользователя.
+
+    Методы:
+    - **GET**: Получение списка аватарок текущего пользователя.
+    - **POST**: Создание новой аватарки.
+    - **PUT**: Полное обновление аватарки.
+    - **PATCH**: Частичное обновление аватарки.
+    - **DELETE**: Удаление аватарки.
     """
+    
     serializer_class = AvatarSerializer
     permission_classes = [IsAuthenticated]  # Только для аутентифицированных пользователей
 
@@ -133,6 +157,12 @@ class AvatarViewSet(ModelViewSet):
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Авторизация через email и пароль. Возвращает JWT-токен.
+
+    Методы:
+    - **POST**: Аутентифицирует пользователя и возвращает токен доступа (access) и обновления (refresh).
+    """
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)

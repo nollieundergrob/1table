@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     
 ]
 
+if DEBUG:
+    INSTALLED_APPS += ['drf_yasg',]
 from datetime import timedelta
 
 SIMPLE_JWT = {
